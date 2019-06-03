@@ -1,0 +1,51 @@
+NB: Run `bundle install` before you get started.**
+validates :member_id, :board_id, presence:true
+Next, set up the database:
+
+    ./setup_db.sh
+    bundle exec annotate
+    bundle exec rspec
+    --format=documentation
+    optional: true
+gem 'shoulda-matchers', '~> 3.0.0'
+
+  belongs_to :,
+    foreign_key: :,
+    class_name: ''
+
+  has_many :watch_list_items,
+    foreign_key: :watch_list_id,
+    class_name: 'WatchListItem'
+
+  has_many :,
+    through: :,
+    source: :
+
+----------------------------------------------------
+bundle install
+
+./import_db.sh
+.headers on
+.mode column
+
+  select actors.name
+  FROM castings 
+  JOIN movies ON castings.movie_id = movies.id
+  JOIN actors ON castings.actor_id = actors.id
+  where movies.title = 'Zombies of the Stratosphere'
+  order by actors.name
+
+  is null
+  like '% Kent'
+  not like   not in
+  SELECT DISTINCT column, another_column, …
+  limit 5 offset
+
+  where castings.ord = 2 and movies.id IN
+  (
+    select castings.movie_id
+    from castings
+    JOIN actors ON castings.actor_id = actors.id
+    where actors.name = 'Will Smith' and castings.ord = 1
+  )
+   
