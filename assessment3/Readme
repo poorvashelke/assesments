@@ -5,7 +5,7 @@ Next, set up the database:
     ./setup_db.sh
     bundle exec annotate
     bundle exec rspec
-    --format=documentation
+    --format=documentation      add it in rspec
     optional: true
 gem 'shoulda-matchers', '~> 3.0.0'
 
@@ -24,8 +24,9 @@ gem 'shoulda-matchers', '~> 3.0.0'
 ----------------------------------------------------
 bundle install
 
-./import_db.sh
-.headers on
+./import_db.sh   create DB
+.tables
+.headers on        see tables
 .mode column
 
   select actors.name
