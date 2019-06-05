@@ -44,6 +44,65 @@
   def is_palindrome?(str)
     str == str.reverse
   end
+
+
+  #_____________________________________________________________
+  # Write a method that returns an array of all the subwords 
+  # of the string that appear in the dictionary argument. 
+  # The method does NOT return any duplicates.
+  class String
+    def real_words_in_string(dictionary)
+      real_words = []
+
+      (0...self.length).each do |idx|
+        (idx...self.length).each do |jdx|
+          curr_word = self[idx..jdx]
+          next if real_words.include?(curr_word)
+          
+          real_words << curr_word if dictionary.include?(curr_word)
+        end
+      end
+      
+      real_words
+    end
+  end
+  #_____________________________________________________________
+  def symmetric_substrings
+      symm_subs = []
+
+      self.length.times do |start_pos|
+        (2..(self.length - start_pos)).to_a.each do |end_pos|
+          substr = self[start_pos...(start_pos + end_pos)]
+          symm_subs << substr if substr == substr.reverse
+        end
+      end
+
+      symm_subs
+    end
+  #_____________________________________________________________
+  LITTLE_WORDS = [
+    "a",
+    "and",
+    "of",
+    "over",
+    "the"
+  ].freeze
+
+  def titleize(title)
+    words = title.split(" ")
+    result_words = []
+    idx = 0
+    words.each do |word|
+      if idx > 0 && LITTLE_WORDS.include?(word)
+        result_words << word.downcase
+      else
+        result_words << word.capitalize
+      end
+      idx += 1
+    end
+
+    result_words.join(" ")
+  end
   #_____________________________________________________________
   class Array
     def my_bsearch(target)
@@ -105,6 +164,54 @@
     end
     str
   end
+  #_____________________________________________________________
+    def merge_sort(&prc)
+      # See how I create a Proc if no block was given; this eliminates
+      # having to later have two branches of logic, one for a block and
+      # one for no block.
+      prc ||= Proc.new { |x, y| x <=> y }
+
+      return self if self.count <= 1
+
+      midpoint = self.count / 2
+      sorted_left = self.take(midpoint).merge_sort(&prc)
+      sorted_right = self.drop(midpoint).merge_sort(&prc)
+
+      Array.merge(sorted_left, sorted_right, &prc)
+
+    end
+
+    private
+    def self.merge(left, right, &prc)
+      merged = []
+
+      until left.empty? || right.empty?
+        case prc.call(left.first, right.first)
+        when -1
+          merged << left.shift
+        when 0
+          merged << left.shift
+        when 1
+          merged << right.shift
+        end
+      end
+
+      merged.concat(left)
+      merged.concat(right)
+
+      merged # or merged + left + right
+    end
+
+  #_____________________________________________________________
+  def my_quick_sort(&prc)
+      prc ||= proc {|a, b| a<=>b}
+      return self if size < 2
+
+      pivot = first
+      left = self[1..-1].select{|el| prc.call(el, pivot) == -1}
+      right = self[1..-1].select{|el| prc.call(el, pivot) != -1}
+      left.my_quick_sort(&prc) + [pivot] + right.my_quick_sort(&prc)
+    end
   #_____________________________________________________________
   def deep_dup(arr)
     arr.map{ |el| el.is_a?(Array) ? deep_dup(el) : el }
@@ -206,54 +313,7 @@
         (sorted[length / 2] + sorted[length / 2 - 1]).fdiv(2)
       end
     end
-  #_____________________________________________________________
-    def merge_sort(&prc)
-      # See how I create a Proc if no block was given; this eliminates
-      # having to later have two branches of logic, one for a block and
-      # one for no block.
-      prc ||= Proc.new { |x, y| x <=> y }
 
-      return self if self.count <= 1
-
-      midpoint = self.count / 2
-      sorted_left = self.take(midpoint).merge_sort(&prc)
-      sorted_right = self.drop(midpoint).merge_sort(&prc)
-
-      Array.merge(sorted_left, sorted_right, &prc)
-
-    end
-
-    private
-    def self.merge(left, right, &prc)
-      merged = []
-
-      until left.empty? || right.empty?
-        case prc.call(left.first, right.first)
-        when -1
-          merged << left.shift
-        when 0
-          merged << left.shift
-        when 1
-          merged << right.shift
-        end
-      end
-
-      merged.concat(left)
-      merged.concat(right)
-
-      merged # or merged + left + right
-    end
-
-  #_____________________________________________________________
-  def my_quick_sort(&prc)
-      prc ||= proc {|a, b| a<=>b}
-      return self if size < 2
-
-      pivot = first
-      left = self[1..-1].select{|el| prc.call(el, pivot) == -1}
-      right = self[1..-1].select{|el| prc.call(el, pivot) != -1}
-      left.my_quick_sort(&prc) + [pivot] + right.my_quick_sort(&prc)
-    end
   #_____________________________________________________________
   def is_prime?(num)
     return false if num < 2
@@ -296,63 +356,6 @@
   def is_prime?(num)
     return false if num < 2
     (2...num).none? { |n| num % n == 0 }
-  end
-  #_____________________________________________________________
-  # Write a method that returns an array of all the subwords 
-  # of the string that appear in the dictionary argument. 
-  # The method does NOT return any duplicates.
-  class String
-    def real_words_in_string(dictionary)
-      real_words = []
-
-      (0...self.length).each do |idx|
-        (idx...self.length).each do |jdx|
-          curr_word = self[idx..jdx]
-          next if real_words.include?(curr_word)
-          
-          real_words << curr_word if dictionary.include?(curr_word)
-        end
-      end
-      
-      real_words
-    end
-  end
-  #_____________________________________________________________
-  def symmetric_substrings
-      symm_subs = []
-
-      self.length.times do |start_pos|
-        (2..(self.length - start_pos)).to_a.each do |end_pos|
-          substr = self[start_pos...(start_pos + end_pos)]
-          symm_subs << substr if substr == substr.reverse
-        end
-      end
-
-      symm_subs
-    end
-  #_____________________________________________________________
-  LITTLE_WORDS = [
-    "a",
-    "and",
-    "of",
-    "over",
-    "the"
-  ].freeze
-
-  def titleize(title)
-    words = title.split(" ")
-    result_words = []
-    idx = 0
-    words.each do |word|
-      if idx > 0 && LITTLE_WORDS.include?(word)
-        result_words << word.downcase
-      else
-        result_words << word.capitalize
-      end
-      idx += 1
-    end
-
-    result_words.join(" ")
   end
   #_____________________________________________________________
   def subsets(array)
