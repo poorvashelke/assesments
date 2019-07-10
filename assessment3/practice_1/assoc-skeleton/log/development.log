@@ -1,0 +1,219 @@
+  [1m[35m (1.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35mSQL (0.2ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  [1m[35m (4.5ms)[0m  [1m[35mDROP TABLE IF EXISTS "board_memberships" CASCADE[0m
+  [1m[35m (8.1ms)[0m  [1m[35mCREATE TABLE "board_memberships" ("id" bigserial primary key, "member_id" integer, "board_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE  INDEX  "index_board_memberships_on_board_id" ON "board_memberships"  ("board_id")[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE  INDEX  "index_board_memberships_on_member_id" ON "board_memberships"  ("member_id")[0m
+  [1m[35m (1.7ms)[0m  [1m[35mDROP TABLE IF EXISTS "boards" CASCADE[0m
+  [1m[35m (3.2ms)[0m  [1m[35mCREATE TABLE "boards" ("id" bigserial primary key, "company_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE  INDEX  "index_boards_on_company_id" ON "boards"  ("company_id")[0m
+  [1m[35m (2.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "companies" CASCADE[0m
+  [1m[35m (4.4ms)[0m  [1m[35mCREATE TABLE "companies" ("id" bigserial primary key, "name" character varying, "website" character varying, "market_cap" float, "ticker_symbol" character varying, "exchange_id" integer, "parent_company_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE  INDEX  "index_companies_on_exchange_id" ON "companies"  ("exchange_id")[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE  INDEX  "index_companies_on_parent_company_id" ON "companies"  ("parent_company_id")[0m
+  [1m[35m (2.4ms)[0m  [1m[35mDROP TABLE IF EXISTS "exchanges" CASCADE[0m
+  [1m[35m (4.6ms)[0m  [1m[35mCREATE TABLE "exchanges" ("id" bigserial primary key, "name" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (2.6ms)[0m  [1m[35mDROP TABLE IF EXISTS "executives" CASCADE[0m
+  [1m[35m (5.4ms)[0m  [1m[35mCREATE TABLE "executives" ("id" bigserial primary key, "name" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (2.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "prices" CASCADE[0m
+  [1m[35m (3.1ms)[0m  [1m[35mCREATE TABLE "prices" ("id" bigserial primary key, "company_id" integer, "open" float, "high" float, "low" float, "close" float, "price_date" date, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE  INDEX  "index_prices_on_company_id" ON "prices"  ("company_id")[0m
+  [1m[35m (1.9ms)[0m  [1m[35mDROP TABLE IF EXISTS "users" CASCADE[0m
+  [1m[35m (4.5ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "username" character varying, "password" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (2.8ms)[0m  [1m[35mDROP TABLE IF EXISTS "watch_list_items" CASCADE[0m
+  [1m[35m (2.6ms)[0m  [1m[35mCREATE TABLE "watch_list_items" ("id" bigserial primary key, "company_id" integer, "cost_basis" float, "return_basis" float, "start_date" date, "end_date" date, "watch_list_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE  INDEX  "index_watch_list_items_on_company_id" ON "watch_list_items"  ("company_id")[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE  INDEX  "index_watch_list_items_on_watch_list_id" ON "watch_list_items"  ("watch_list_id")[0m
+  [1m[35m (3.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "watch_lists" CASCADE[0m
+  [1m[35m (4.5ms)[0m  [1m[35mCREATE TABLE "watch_lists" ("id" bigserial primary key, "name" character varying, "user_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE  INDEX  "index_watch_lists_on_user_id" ON "watch_lists"  ("user_id")[0m
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.5ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  [1m[35m (20.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "board_memberships" CASCADE[0m
+  [1m[35m (8.6ms)[0m  [1m[35mCREATE TABLE "board_memberships" ("id" bigserial primary key, "member_id" integer, "board_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE  INDEX  "index_board_memberships_on_board_id" ON "board_memberships"  ("board_id")[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE  INDEX  "index_board_memberships_on_member_id" ON "board_memberships"  ("member_id")[0m
+  [1m[35m (1.8ms)[0m  [1m[35mDROP TABLE IF EXISTS "boards" CASCADE[0m
+  [1m[35m (2.2ms)[0m  [1m[35mCREATE TABLE "boards" ("id" bigserial primary key, "company_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (0.8ms)[0m  [1m[35mCREATE  INDEX  "index_boards_on_company_id" ON "boards"  ("company_id")[0m
+  [1m[35m (2.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "companies" CASCADE[0m
+  [1m[35m (3.8ms)[0m  [1m[35mCREATE TABLE "companies" ("id" bigserial primary key, "name" character varying, "website" character varying, "market_cap" float, "ticker_symbol" character varying, "exchange_id" integer, "parent_company_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE  INDEX  "index_companies_on_exchange_id" ON "companies"  ("exchange_id")[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE  INDEX  "index_companies_on_parent_company_id" ON "companies"  ("parent_company_id")[0m
+  [1m[35m (2.5ms)[0m  [1m[35mDROP TABLE IF EXISTS "exchanges" CASCADE[0m
+  [1m[35m (3.6ms)[0m  [1m[35mCREATE TABLE "exchanges" ("id" bigserial primary key, "name" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (2.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "executives" CASCADE[0m
+  [1m[35m (2.9ms)[0m  [1m[35mCREATE TABLE "executives" ("id" bigserial primary key, "name" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (2.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "prices" CASCADE[0m
+  [1m[35m (3.4ms)[0m  [1m[35mCREATE TABLE "prices" ("id" bigserial primary key, "company_id" integer, "open" float, "high" float, "low" float, "close" float, "price_date" date, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE  INDEX  "index_prices_on_company_id" ON "prices"  ("company_id")[0m
+  [1m[35m (2.6ms)[0m  [1m[35mDROP TABLE IF EXISTS "users" CASCADE[0m
+  [1m[35m (3.7ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "username" character varying, "password" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (1.6ms)[0m  [1m[35mDROP TABLE IF EXISTS "watch_list_items" CASCADE[0m
+  [1m[35m (3.1ms)[0m  [1m[35mCREATE TABLE "watch_list_items" ("id" bigserial primary key, "company_id" integer, "cost_basis" float, "return_basis" float, "start_date" date, "end_date" date, "watch_list_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE  INDEX  "index_watch_list_items_on_company_id" ON "watch_list_items"  ("company_id")[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE  INDEX  "index_watch_list_items_on_watch_list_id" ON "watch_list_items"  ("watch_list_id")[0m
+  [1m[35m (2.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "watch_lists" CASCADE[0m
+  [1m[35m (3.3ms)[0m  [1m[35mCREATE TABLE "watch_lists" ("id" bigserial primary key, "name" character varying, "user_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE  INDEX  "index_watch_lists_on_user_id" ON "watch_lists"  ("user_id")[0m
+  [1m[35m (2.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.4ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[33mUPDATE "ar_internal_metadata" SET "value" = $1, "updated_at" = $2 WHERE "ar_internal_metadata"."key" = $3[0m  [["value", "development"], ["updated_at", "2019-06-03 13:42:27.695253"], ["key", "environment"]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[33mUPDATE "ar_internal_metadata" SET "value" = $1, "updated_at" = $2 WHERE "ar_internal_metadata"."key" = $3[0m  [["value", "test"], ["updated_at", "2019-06-03 13:42:27.699016"], ["key", "environment"]]
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[31mDELETE FROM "exchanges"[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[31mDELETE FROM "companies"[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[31mDELETE FROM "prices"[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[31mDELETE FROM "boards"[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[31mDELETE FROM "board_memberships"[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[31mDELETE FROM "users"[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[31mDELETE FROM "watch_lists"[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[31mDELETE FROM "watch_list_items"[0m
+  [1m[35mSQL (1.5ms)[0m  [1m[32mINSERT INTO "exchanges" ("id", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["id", 25545], ["name", "NASDAQ"], ["created_at", "2019-06-03 13:42:27.761216"], ["updated_at", "2019-06-03 13:42:27.761216"]]
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "exchanges" ("id", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["id", 7959], ["name", "NYSE"], ["created_at", "2019-06-03 13:42:27.764033"], ["updated_at", "2019-06-03 13:42:27.764033"]]
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO "companies" ("id", "name", "website", "market_cap", "ticker_symbol", "exchange_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["id", 25291], ["name", "Alphabet"], ["website", "google.com"], ["market_cap", 3000.0], ["ticker_symbol", "ABCD"], ["exchange_id", 7959], ["created_at", "2019-06-03 13:42:27.776986"], ["updated_at", "2019-06-03 13:42:27.776986"]]
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "companies" ("id", "name", "website", "market_cap", "ticker_symbol", "exchange_id", "parent_company_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["id", 54401], ["name", "Google"], ["website", "google.com"], ["market_cap", 4000.0], ["ticker_symbol", "GOOG"], ["exchange_id", 25545], ["parent_company_id", 25291], ["created_at", "2019-06-03 13:42:27.778326"], ["updated_at", "2019-06-03 13:42:27.778326"]]
+  [1m[35mSQL (0.8ms)[0m  [1m[32mINSERT INTO "prices" ("id", "company_id", "open", "high", "low", "close", "price_date", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["id", 43519], ["company_id", 54401], ["open", 1000.0], ["high", 1010.0], ["low", 990.0], ["close", 1001.0], ["price_date", "2019-06-03"], ["created_at", "2019-06-03 13:42:27.789694"], ["updated_at", "2019-06-03 13:42:27.789694"]]
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "prices" ("id", "company_id", "open", "high", "low", "close", "price_date", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["id", 52951], ["company_id", 54401], ["open", 1001.0], ["high", 1011.0], ["low", 991.0], ["close", 1002.0], ["price_date", "2019-06-04"], ["created_at", "2019-06-03 13:42:27.791895"], ["updated_at", "2019-06-03 13:42:27.791895"]]
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "prices" ("id", "company_id", "open", "high", "low", "close", "price_date", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["id", 24052], ["company_id", 54401], ["open", 1002.0], ["high", 1012.0], ["low", 992.0], ["close", 1003.0], ["price_date", "2019-06-05"], ["created_at", "2019-06-03 13:42:27.793054"], ["updated_at", "2019-06-03 13:42:27.793054"]]
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "prices" ("id", "company_id", "open", "high", "low", "close", "price_date", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["id", 14605], ["company_id", 54401], ["open", 1003.0], ["high", 1013.0], ["low", 993.0], ["close", 1004.0], ["price_date", "2019-06-06"], ["created_at", "2019-06-03 13:42:27.794079"], ["updated_at", "2019-06-03 13:42:27.794079"]]
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "prices" ("id", "company_id", "open", "high", "low", "close", "price_date", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["id", 36221], ["company_id", 54401], ["open", 1004.0], ["high", 1014.0], ["low", 994.0], ["close", 1005.0], ["price_date", "2019-06-07"], ["created_at", "2019-06-03 13:42:27.795139"], ["updated_at", "2019-06-03 13:42:27.795139"]]
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "prices" ("id", "company_id", "open", "high", "low", "close", "price_date", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["id", 22155], ["company_id", 54401], ["open", 1005.0], ["high", 1015.0], ["low", 995.0], ["close", 1006.0], ["price_date", "2019-06-08"], ["created_at", "2019-06-03 13:42:27.796128"], ["updated_at", "2019-06-03 13:42:27.796128"]]
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "prices" ("id", "company_id", "open", "high", "low", "close", "price_date", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["id", 86976], ["company_id", 54401], ["open", 1006.0], ["high", 1016.0], ["low", 996.0], ["close", 1007.0], ["price_date", "2019-06-09"], ["created_at", "2019-06-03 13:42:27.797239"], ["updated_at", "2019-06-03 13:42:27.797239"]]
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "prices" ("id", "company_id", "open", "high", "low", "close", "price_date", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["id", 56861], ["company_id", 54401], ["open", 1007.0], ["high", 1017.0], ["low", 997.0], ["close", 1008.0], ["price_date", "2019-06-10"], ["created_at", "2019-06-03 13:42:27.798633"], ["updated_at", "2019-06-03 13:42:27.798633"]]
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "prices" ("id", "company_id", "open", "high", "low", "close", "price_date", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["id", 45560], ["company_id", 54401], ["open", 1008.0], ["high", 1018.0], ["low", 998.0], ["close", 1009.0], ["price_date", "2019-06-11"], ["created_at", "2019-06-03 13:42:27.799952"], ["updated_at", "2019-06-03 13:42:27.799952"]]
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "prices" ("id", "company_id", "open", "high", "low", "close", "price_date", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["id", 55618], ["company_id", 54401], ["open", 1009.0], ["high", 1019.0], ["low", 999.0], ["close", 1010.0], ["price_date", "2019-06-12"], ["created_at", "2019-06-03 13:42:27.801209"], ["updated_at", "2019-06-03 13:42:27.801209"]]
+  [1m[35mSQL (0.5ms)[0m  [1m[32mINSERT INTO "executives" ("id", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["id", 52862], ["name", "Larry Page"], ["created_at", "2019-06-03 13:42:27.811298"], ["updated_at", "2019-06-03 13:42:27.811298"]]
+  [1m[35mSQL (1.1ms)[0m  [1m[32mINSERT INTO "boards" ("id", "company_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["id", 44456], ["company_id", 54401], ["created_at", "2019-06-03 13:42:27.820906"], ["updated_at", "2019-06-03 13:42:27.820906"]]
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "board_memberships" ("id", "member_id", "board_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["id", 16664], ["member_id", 52862], ["board_id", 44456], ["created_at", "2019-06-03 13:42:27.830711"], ["updated_at", "2019-06-03 13:42:27.830711"]]
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "users" ("id", "username", "password", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["id", 72833], ["username", "stevej"], ["password", "password"], ["created_at", "2019-06-03 13:42:27.839723"], ["updated_at", "2019-06-03 13:42:27.839723"]]
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "watch_lists" ("id", "name", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["id", 94412], ["name", "big winners"], ["user_id", 72833], ["created_at", "2019-06-03 13:42:27.848477"], ["updated_at", "2019-06-03 13:42:27.848477"]]
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "watch_list_items" ("id", "company_id", "start_date", "end_date", "watch_list_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["id", 33623], ["company_id", 54401], ["start_date", "2019-06-04"], ["end_date", "2019-06-07"], ["watch_list_id", 94412], ["created_at", "2019-06-03 13:42:27.859041"], ["updated_at", "2019-06-03 13:42:27.859041"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "environment"]]
+  [1m[35mSQL (0.2ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  [1m[35m (3.9ms)[0m  [1m[35mDROP TABLE IF EXISTS "board_memberships" CASCADE[0m
+  [1m[35m (3.9ms)[0m  [1m[35mCREATE TABLE "board_memberships" ("id" bigserial primary key, "member_id" integer, "board_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (2.1ms)[0m  [1m[35mCREATE  INDEX  "index_board_memberships_on_board_id" ON "board_memberships"  ("board_id")[0m
+  [1m[35m (1.7ms)[0m  [1m[35mCREATE  INDEX  "index_board_memberships_on_member_id" ON "board_memberships"  ("member_id")[0m
+  [1m[35m (1.9ms)[0m  [1m[35mDROP TABLE IF EXISTS "boards" CASCADE[0m
+  [1m[35m (3.1ms)[0m  [1m[35mCREATE TABLE "boards" ("id" bigserial primary key, "company_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE  INDEX  "index_boards_on_company_id" ON "boards"  ("company_id")[0m
+  [1m[35m (2.4ms)[0m  [1m[35mDROP TABLE IF EXISTS "companies" CASCADE[0m
+  [1m[35m (4.1ms)[0m  [1m[35mCREATE TABLE "companies" ("id" bigserial primary key, "name" character varying, "website" character varying, "market_cap" float, "ticker_symbol" character varying, "exchange_id" integer, "parent_company_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE  INDEX  "index_companies_on_exchange_id" ON "companies"  ("exchange_id")[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE  INDEX  "index_companies_on_parent_company_id" ON "companies"  ("parent_company_id")[0m
+  [1m[35m (2.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "exchanges" CASCADE[0m
+  [1m[35m (4.7ms)[0m  [1m[35mCREATE TABLE "exchanges" ("id" bigserial primary key, "name" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (2.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "executives" CASCADE[0m
+  [1m[35m (4.3ms)[0m  [1m[35mCREATE TABLE "executives" ("id" bigserial primary key, "name" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (2.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "prices" CASCADE[0m
+  [1m[35m (3.7ms)[0m  [1m[35mCREATE TABLE "prices" ("id" bigserial primary key, "company_id" integer, "open" float, "high" float, "low" float, "close" float, "price_date" date, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE  INDEX  "index_prices_on_company_id" ON "prices"  ("company_id")[0m
+  [1m[35m (2.4ms)[0m  [1m[35mDROP TABLE IF EXISTS "users" CASCADE[0m
+  [1m[35m (3.6ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "username" character varying, "password" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (2.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "watch_list_items" CASCADE[0m
+  [1m[35m (3.1ms)[0m  [1m[35mCREATE TABLE "watch_list_items" ("id" bigserial primary key, "company_id" integer, "cost_basis" float, "return_basis" float, "start_date" date, "end_date" date, "watch_list_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE  INDEX  "index_watch_list_items_on_company_id" ON "watch_list_items"  ("company_id")[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE  INDEX  "index_watch_list_items_on_watch_list_id" ON "watch_list_items"  ("watch_list_id")[0m
+  [1m[35m (2.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "watch_lists" CASCADE[0m
+  [1m[35m (4.2ms)[0m  [1m[35mCREATE TABLE "watch_lists" ("id" bigserial primary key, "name" character varying, "user_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE  INDEX  "index_watch_lists_on_user_id" ON "watch_lists"  ("user_id")[0m
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.5ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  [1m[35m (3.6ms)[0m  [1m[35mDROP TABLE IF EXISTS "board_memberships" CASCADE[0m
+  [1m[35m (3.4ms)[0m  [1m[35mCREATE TABLE "board_memberships" ("id" bigserial primary key, "member_id" integer, "board_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE  INDEX  "index_board_memberships_on_board_id" ON "board_memberships"  ("board_id")[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE  INDEX  "index_board_memberships_on_member_id" ON "board_memberships"  ("member_id")[0m
+  [1m[35m (1.7ms)[0m  [1m[35mDROP TABLE IF EXISTS "boards" CASCADE[0m
+  [1m[35m (3.3ms)[0m  [1m[35mCREATE TABLE "boards" ("id" bigserial primary key, "company_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE  INDEX  "index_boards_on_company_id" ON "boards"  ("company_id")[0m
+  [1m[35m (2.0ms)[0m  [1m[35mDROP TABLE IF EXISTS "companies" CASCADE[0m
+  [1m[35m (4.3ms)[0m  [1m[35mCREATE TABLE "companies" ("id" bigserial primary key, "name" character varying, "website" character varying, "market_cap" float, "ticker_symbol" character varying, "exchange_id" integer, "parent_company_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE  INDEX  "index_companies_on_exchange_id" ON "companies"  ("exchange_id")[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE  INDEX  "index_companies_on_parent_company_id" ON "companies"  ("parent_company_id")[0m
+  [1m[35m (2.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "exchanges" CASCADE[0m
+  [1m[35m (4.2ms)[0m  [1m[35mCREATE TABLE "exchanges" ("id" bigserial primary key, "name" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (2.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "executives" CASCADE[0m
+  [1m[35m (4.1ms)[0m  [1m[35mCREATE TABLE "executives" ("id" bigserial primary key, "name" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (1.8ms)[0m  [1m[35mDROP TABLE IF EXISTS "prices" CASCADE[0m
+  [1m[35m (3.0ms)[0m  [1m[35mCREATE TABLE "prices" ("id" bigserial primary key, "company_id" integer, "open" float, "high" float, "low" float, "close" float, "price_date" date, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE  INDEX  "index_prices_on_company_id" ON "prices"  ("company_id")[0m
+  [1m[35m (2.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "users" CASCADE[0m
+  [1m[35m (4.3ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "username" character varying, "password" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (1.9ms)[0m  [1m[35mDROP TABLE IF EXISTS "watch_list_items" CASCADE[0m
+  [1m[35m (2.9ms)[0m  [1m[35mCREATE TABLE "watch_list_items" ("id" bigserial primary key, "company_id" integer, "cost_basis" float, "return_basis" float, "start_date" date, "end_date" date, "watch_list_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE  INDEX  "index_watch_list_items_on_company_id" ON "watch_list_items"  ("company_id")[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE  INDEX  "index_watch_list_items_on_watch_list_id" ON "watch_list_items"  ("watch_list_id")[0m
+  [1m[35m (2.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "watch_lists" CASCADE[0m
+  [1m[35m (5.4ms)[0m  [1m[35mCREATE TABLE "watch_lists" ("id" bigserial primary key, "name" character varying, "user_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35m (0.9ms)[0m  [1m[35mCREATE  INDEX  "index_watch_lists_on_user_id" ON "watch_lists"  ("user_id")[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[33mUPDATE "ar_internal_metadata" SET "value" = $1, "updated_at" = $2 WHERE "ar_internal_metadata"."key" = $3[0m  [["value", "development"], ["updated_at", "2019-06-03 13:42:30.375662"], ["key", "environment"]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[33mUPDATE "ar_internal_metadata" SET "value" = $1, "updated_at" = $2 WHERE "ar_internal_metadata"."key" = $3[0m  [["value", "test"], ["updated_at", "2019-06-03 13:42:30.379052"], ["key", "environment"]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35mSQL (0.5ms)[0m  [1m[31mDELETE FROM "exchanges"[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[31mDELETE FROM "companies"[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[31mDELETE FROM "prices"[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM "boards"[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[31mDELETE FROM "board_memberships"[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM "users"[0m
+  [1m[35mSQL (0.3ms)[0m  [1m[31mDELETE FROM "watch_lists"[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[31mDELETE FROM "watch_list_items"[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "exchanges" ("id", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["id", 30799], ["name", "NASDAQ"], ["created_at", "2019-06-03 13:42:32.631833"], ["updated_at", "2019-06-03 13:42:32.631833"]]
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "exchanges" ("id", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["id", 34491], ["name", "NYSE"], ["created_at", "2019-06-03 13:42:32.633034"], ["updated_at", "2019-06-03 13:42:32.633034"]]
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "companies" ("id", "name", "website", "market_cap", "ticker_symbol", "exchange_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["id", 36572], ["name", "Alphabet"], ["website", "google.com"], ["market_cap", 3000.0], ["ticker_symbol", "ABCD"], ["exchange_id", 34491], ["created_at", "2019-06-03 13:42:32.641956"], ["updated_at", "2019-06-03 13:42:32.641956"]]
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "companies" ("id", "name", "website", "market_cap", "ticker_symbol", "exchange_id", "parent_company_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["id", 90973], ["name", "Google"], ["website", "google.com"], ["market_cap", 4000.0], ["ticker_symbol", "GOOG"], ["exchange_id", 30799], ["parent_company_id", 36572], ["created_at", "2019-06-03 13:42:32.643081"], ["updated_at", "2019-06-03 13:42:32.643081"]]
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "prices" ("id", "company_id", "open", "high", "low", "close", "price_date", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["id", 5693], ["company_id", 90973], ["open", 1000.0], ["high", 1010.0], ["low", 990.0], ["close", 1001.0], ["price_date", "2019-06-03"], ["created_at", "2019-06-03 13:42:32.652011"], ["updated_at", "2019-06-03 13:42:32.652011"]]
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "prices" ("id", "company_id", "open", "high", "low", "close", "price_date", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["id", 57726], ["company_id", 90973], ["open", 1001.0], ["high", 1011.0], ["low", 991.0], ["close", 1002.0], ["price_date", "2019-06-04"], ["created_at", "2019-06-03 13:42:32.653188"], ["updated_at", "2019-06-03 13:42:32.653188"]]
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "prices" ("id", "company_id", "open", "high", "low", "close", "price_date", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["id", 53675], ["company_id", 90973], ["open", 1002.0], ["high", 1012.0], ["low", 992.0], ["close", 1003.0], ["price_date", "2019-06-05"], ["created_at", "2019-06-03 13:42:32.653943"], ["updated_at", "2019-06-03 13:42:32.653943"]]
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "prices" ("id", "company_id", "open", "high", "low", "close", "price_date", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["id", 33149], ["company_id", 90973], ["open", 1003.0], ["high", 1013.0], ["low", 993.0], ["close", 1004.0], ["price_date", "2019-06-06"], ["created_at", "2019-06-03 13:42:32.654676"], ["updated_at", "2019-06-03 13:42:32.654676"]]
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "prices" ("id", "company_id", "open", "high", "low", "close", "price_date", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["id", 56632], ["company_id", 90973], ["open", 1004.0], ["high", 1014.0], ["low", 994.0], ["close", 1005.0], ["price_date", "2019-06-07"], ["created_at", "2019-06-03 13:42:32.655395"], ["updated_at", "2019-06-03 13:42:32.655395"]]
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "prices" ("id", "company_id", "open", "high", "low", "close", "price_date", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["id", 24723], ["company_id", 90973], ["open", 1005.0], ["high", 1015.0], ["low", 995.0], ["close", 1006.0], ["price_date", "2019-06-08"], ["created_at", "2019-06-03 13:42:32.656110"], ["updated_at", "2019-06-03 13:42:32.656110"]]
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "prices" ("id", "company_id", "open", "high", "low", "close", "price_date", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["id", 92996], ["company_id", 90973], ["open", 1006.0], ["high", 1016.0], ["low", 996.0], ["close", 1007.0], ["price_date", "2019-06-09"], ["created_at", "2019-06-03 13:42:32.656818"], ["updated_at", "2019-06-03 13:42:32.656818"]]
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "prices" ("id", "company_id", "open", "high", "low", "close", "price_date", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["id", 66771], ["company_id", 90973], ["open", 1007.0], ["high", 1017.0], ["low", 997.0], ["close", 1008.0], ["price_date", "2019-06-10"], ["created_at", "2019-06-03 13:42:32.657525"], ["updated_at", "2019-06-03 13:42:32.657525"]]
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "prices" ("id", "company_id", "open", "high", "low", "close", "price_date", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["id", 36172], ["company_id", 90973], ["open", 1008.0], ["high", 1018.0], ["low", 998.0], ["close", 1009.0], ["price_date", "2019-06-11"], ["created_at", "2019-06-03 13:42:32.658262"], ["updated_at", "2019-06-03 13:42:32.658262"]]
+  [1m[35mSQL (0.2ms)[0m  [1m[32mINSERT INTO "prices" ("id", "company_id", "open", "high", "low", "close", "price_date", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "id"[0m  [["id", 79345], ["company_id", 90973], ["open", 1009.0], ["high", 1019.0], ["low", 999.0], ["close", 1010.0], ["price_date", "2019-06-12"], ["created_at", "2019-06-03 13:42:32.658971"], ["updated_at", "2019-06-03 13:42:32.658971"]]
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "executives" ("id", "name", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["id", 6430], ["name", "Larry Page"], ["created_at", "2019-06-03 13:42:32.665743"], ["updated_at", "2019-06-03 13:42:32.665743"]]
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "boards" ("id", "company_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["id", 55360], ["company_id", 90973], ["created_at", "2019-06-03 13:42:32.672124"], ["updated_at", "2019-06-03 13:42:32.672124"]]
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "board_memberships" ("id", "member_id", "board_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["id", 14636], ["member_id", 6430], ["board_id", 55360], ["created_at", "2019-06-03 13:42:32.679011"], ["updated_at", "2019-06-03 13:42:32.679011"]]
+  [1m[35mSQL (0.3ms)[0m  [1m[32mINSERT INTO "users" ("id", "username", "password", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["id", 99009], ["username", "stevej"], ["password", "password"], ["created_at", "2019-06-03 13:42:32.685972"], ["updated_at", "2019-06-03 13:42:32.685972"]]
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "watch_lists" ("id", "name", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["id", 29471], ["name", "big winners"], ["user_id", 99009], ["created_at", "2019-06-03 13:42:32.693135"], ["updated_at", "2019-06-03 13:42:32.693135"]]
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "watch_list_items" ("id", "company_id", "start_date", "end_date", "watch_list_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["id", 98478], ["company_id", 90973], ["start_date", "2019-06-04"], ["end_date", "2019-06-07"], ["watch_list_id", 29471], ["created_at", "2019-06-03 13:42:32.702640"], ["updated_at", "2019-06-03 13:42:32.702640"]]
+  [1m[35m (1.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
