@@ -1,7 +1,5 @@
-  # Write a function anagrams(str1, str2) that takes in two words and returns a boolean
-  # indicating whether or not the words are anagrams. Anagrams are words that
-  # contain the same characters but not necessarily in the same order. Solve this
-  # without using Array#sort
+  # Write a function anagrams(str1, str2) that takes in two words and returns a boolean indicating whether or not the words are anagrams.
+  #Anagrams are words that contain the same characters but not necessarily in the same order. Solve this without using Array#sort
   def anagrams(str1, str2)
     letters = Hash.new(0)
 
@@ -45,10 +43,8 @@
     str == str.reverse
   end
 
-
   #_____________________________________________________________
-  # Write a method that returns an array of all the subwords 
-  # of the string that appear in the dictionary argument. 
+  # Write a method that returns an array of all the subwords of the string that appear in the dictionary argument. 
   # The method does NOT return any duplicates.
   class String
     def real_words_in_string(dictionary)
@@ -68,8 +64,7 @@
   end
   #_____________________________________________________________
   # Write a String#symmetric_substrings method that returns an array of substrings
-  # that are palindromes, e.g. "cool".symmetric_substrings => ["oo"]
-  # Only include substrings of length > 1.
+  # that are palindromes, e.g. "cool".symmetric_substrings => ["oo"] Only include substrings of length > 1.
 
   def symmetric_substrings
       symm_subs = []
@@ -147,8 +142,7 @@
     end
   #_____________________________________________________________
   # Write a method that takes a string and an alphabet. It returns a copy of the string
-  # with the letters re-ordered according to their positions in the alphabet. If
-  # no alphabet is passed in, it defaults to normal alphabetical order (a-z).
+  # with the letters re-ordered according to their positions in the alphabet. If no alphabet is passed in, it defaults to normal alphabetical order (a-z).
 
   # Example:
   # jumble_sort("hello") => "ehllo"
@@ -171,8 +165,7 @@
   #_____________________________________________________________
     def merge_sort(&prc)
       # See how I create a Proc if no block was given; this eliminates
-      # having to later have two branches of logic, one for a block and
-      # one for no block.
+      # having to later have two branches of logic, one for a block and one for no block.
       prc ||= Proc.new { |x, y| x <=> y }
 
       return self if self.count <= 1
@@ -250,8 +243,7 @@
   end
 
   #_____________________________________________________________
-  # Write a method that finds the factors of a 
-  # number in ascending order recursively.
+  # Write a method that finds the factors of a  number in ascending order recursively.
   def factorials_rec(num)
     return [1] if num == 1
     facs = factorials_rec(num - 1)
@@ -275,8 +267,7 @@
     fibs_sum(n-1) + fibs_sum(n-2) + 1
   end
   #_____________________________________________________________
-  # Write a recursive method that returns the sum of the first n even numbers
-  # recursively. Assume n > 0.
+  # Write a recursive method that returns the sum of the first n even numbers recursively. Assume n > 0.
   def first_even_numbers_sum(n)
     return 2 if n == 1
     2 * n + first_even_numbers_sum(n-1)
@@ -301,9 +292,7 @@
   end
 
   #_____________________________________________________________
-  # Write a recursive method that takes in a base 10 number n and
-  # converts it to a base b number. Return the new number as a string
-  #
+  # Write a recursive method that takes in a base 10 number n and converts it to a base b number. Return the new number as a string
   # E.g. base_converter(5, 2) == "101"
   # base_converter(31, 16) == "1f"
 
@@ -343,10 +332,7 @@
     primes
   end
   #_____________________________________________________________
-
-  # Write a recursive function that returns the prime factorization of
-  # a given number. Assume num > 1
-  #
+  # Write a recursive function that returns the prime factorization of a given number. Assume num > 1
   # prime_factorization(12) => [2,2,3]
 
   def prime_factorization(num)
@@ -405,7 +391,6 @@
       pairs
     end
   #_____________________________________________________________
-
   def pig_latinify(sentence)
     translated_words = sentence.split(" ").map do |word|
       translate_word(word)
@@ -430,7 +415,6 @@
   def permutations(array)
     return [array] if array.length <= 1
 
-
     # Similar to the subsets problem, we observe that to get the permutations
     # of [1, 2, 3] we can look at the permutations of [1, 2] which are
     # [1, 2] and [2, 1] and add the last element to every possible index getting
@@ -442,7 +426,6 @@
     perms = permutations(array)
     # we will need an array to store all our different permutations
     total_permutations = []
-
 
     # Now we iterate over the result of our recusive call say [[1, 2], [2, 1]]
     # and for each permutation add first into every index. This new subarray
@@ -504,7 +487,6 @@
   # eight_queens.backtrack
 
   #_____________________________________________________________
-
   # See question here: http://web.archive.org/web/20130215052843/http://rubyquiz.com/quiz154.html
   # Write a recursive method to solve `make better change`.
 
